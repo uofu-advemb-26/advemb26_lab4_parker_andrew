@@ -3,6 +3,7 @@ build
 log
 lib
 
+.DS_Store
 *.log.*
 *-asciinema
 *.pid
