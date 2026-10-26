@@ -45,14 +45,14 @@ BaseType_t signal_request_calculate(SemaphoreHandle_t request,
         return taken;
     }
 
-    while (xSemaphoreTake(response, portMAX_DELAY) == pdTRUE)
+    while (xSemaphoreTake(response, 1000) == pdTRUE)
     {
         taken = pdTRUE;
         printf("Output: %d - Input: %d\n", data->output, data->input);
         return taken;
     }
 
-    printf("No workers available");
+    printf("No workers available\n");
     return taken;
 }
 
