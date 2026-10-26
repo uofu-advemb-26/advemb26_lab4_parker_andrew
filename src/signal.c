@@ -37,17 +37,19 @@ BaseType_t signal_request_calculate(SemaphoreHandle_t request,
                                     SemaphoreHandle_t response,
                                     struct signal_data *data)
 {
+    BaseType_t taken = pdFALSE;
+
     if(xSemaphoreGive(request) == pdFALSE)
     {
         printf("Maximum amount of work prescribed\n");
+        return taken;
     }
-
-    BaseType_t taken = pdFALSE;
 
     while (xSemaphoreTake(response, portMAX_DELAY) == pdTRUE)
     {
         taken = pdTRUE;
         printf("Output: %d - Input: %d\n", data->output, data->input);
+        return taken;
     }
 
     printf("No workers available");
