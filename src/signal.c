@@ -8,6 +8,7 @@
 
 #include "FreeRTOS.h"
 #include "portmacro.h"
+#include "projdefs.h"
 #include "task.h"
 
 #include "pico/stdlib.h"
@@ -23,12 +24,12 @@ void signal_handle_calculation(SemaphoreHandle_t request,
     while (xSemaphoreTake(request, portMAX_DELAY) == pdTRUE)
     {
         data->output = data->input + 5;
-        printf("Data.output = data.input + 5");
+        printf("Data.output = data.input + 5\n");
         xSemaphoreGive(response);
         return;
     }
 
-    printf("Worker timed out.");
+    printf("Worker timed out.\n");
     return;
 }
 
@@ -38,16 +39,19 @@ BaseType_t signal_request_calculate(SemaphoreHandle_t request,
 {
     if(xSemaphoreGive(request) == pdFALSE)
     {
-        printf("Maximum amount of work prescribed");
+        printf("Maximum amount of work prescribed\n");
     }
+
+    BaseType_t taken = pdFALSE;
 
     while (xSemaphoreTake(response, portMAX_DELAY) == pdTRUE)
     {
-        printf("Output: %d - Input: %d", data->output, data->input);
+        taken = pdTRUE;
+        printf("Output: %d - Input: %d\n", data->output, data->input);
     }
 
     printf("No workers available");
-    return;
+    return taken;
 }
 
 
