@@ -8,7 +8,7 @@ target_link_libraries(lab4_test_fifo PRIVATE
 )
 pico_enable_stdio_uart(lab4_test_fifo 0)
 pico_enable_stdio_usb(lab4_test_fifo 1)
-add_custom_target(flash_test_
+add_custom_target(flash_test_fifo
     picotool load -f $<TARGET_FILE:lab4_test_fifo> DEPENDS lab4_test_fifo)
 
 
